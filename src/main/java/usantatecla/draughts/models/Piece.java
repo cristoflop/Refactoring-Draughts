@@ -8,7 +8,7 @@ public abstract class Piece {
 	private static String[] CODES = {"b", "n"};
 
 	Piece(Color color) {
-		assert !color.isNull();
+		assert color != Color.NULL;
 		this.color = color;
 	}
 
