@@ -20,13 +20,26 @@ public enum Color implements usantatecla.draughts.utils.Color {
     static Color getInitialColor(final Coordinate coordinate) {
         if (coordinate.isBlack())
             for (Color color : Color.values())
-                if (color.isInitialRow(coordinate.getRow()))
+                if (!color.isNull() && color.isInitialRow(coordinate.getRow()))
                     return color;
         return Color.NULL;
     }
 
+    static Color getOppositeColor(Color color) {
+        Color oppositeColor = Color.NULL;
+        switch (color) {
+            case WHITE:
+                oppositeColor = Color.BLACK;
+                break;
+            case BLACK:
+                oppositeColor = Color.WHITE;
+                break;
+        }
+        return oppositeColor;
+    }
+
     @Override
     public boolean isNull() {
-        return !this.equals(Color.NULL);
+        return this == Color.NULL;
     }
 }
