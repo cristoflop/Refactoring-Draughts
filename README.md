@@ -1,4 +1,5 @@
-#### Author: Cristofer López Cabañas
+## Author: Cristofer López Cabañas
 
-* Applied Null Object pattern in ENUM Color
-* Generic class Coordinate
+1. Applied Null Object pattern in ENUM Color
+
+2. Generic class Coordinate
