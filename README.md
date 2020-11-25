@@ -1,1 +1,1 @@
-# Refactoring-Draughts
+#### Author: Cristofer López Cabañas
