@@ -20,6 +20,14 @@ class Turn {
         return Color.getOppositeColor(this.color);
     }
 
+    void reset() {
+        this.color = this.getStartColor();
+    }
+
+    Color getStartColor() {
+        return Color.getStartColor();
+    }
+
     @Override
     public String toString() {
         return this.color.name();

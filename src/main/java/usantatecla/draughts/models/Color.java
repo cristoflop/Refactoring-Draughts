@@ -38,6 +38,10 @@ public enum Color implements usantatecla.draughts.utils.Color {
         return oppositeColor;
     }
 
+    static Color getStartColor() {
+        return Color.WHITE;
+    }
+
     @Override
     public boolean isNull() {
         return this == Color.NULL;

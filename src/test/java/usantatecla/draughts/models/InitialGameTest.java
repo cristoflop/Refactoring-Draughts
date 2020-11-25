@@ -34,8 +34,6 @@ public class InitialGameTest extends GameTest {
             "        ",
             "        ",
             "        ");
-        System.out.println(this.expectedGame);
-        System.out.println(this.game);
         assertEquals(this.expectedGame, this.game);
     }
 
