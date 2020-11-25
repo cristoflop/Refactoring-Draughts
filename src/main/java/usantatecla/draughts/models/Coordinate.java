@@ -1,9 +1,11 @@
 package usantatecla.draughts.models;
 
+import usantatecla.draughts.utils.ConcreteCoordinate;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Coordinate {
+public class Coordinate extends ConcreteCoordinate {
 
     private int row;
     private int column;
@@ -47,8 +49,8 @@ public class Coordinate {
     Direction getDirection(Coordinate coordinate) {
         assert coordinate != null;
         Coordinate substract = coordinate.substract(this);
-        for (Direction direction : Direction.values()) 
-            if (direction.isOnDirection(substract)) 
+        for (Direction direction : Direction.values())
+            if (direction.isOnDirection(substract))
                 return direction;
         return null;
     }
@@ -68,12 +70,12 @@ public class Coordinate {
         return this.plus(direction.getDistanceCoordinate(1));
     }
 
-    List<Coordinate> getBetweenDiagonalCoordinates(Coordinate coordinate){
+    List<Coordinate> getBetweenDiagonalCoordinates(Coordinate coordinate) {
         assert this.isOnDiagonal(coordinate);
         List<Coordinate> coordinates = new ArrayList<Coordinate>();
         final Direction direction = this.getDirection(coordinate);
         Coordinate cursor = this.plus(direction.getDistanceCoordinate(1));
-        while (!cursor.equals(coordinate)){
+        while (!cursor.equals(coordinate)) {
             coordinates.add(cursor);
             cursor = cursor.plus(direction.getDistanceCoordinate(1));
         }
