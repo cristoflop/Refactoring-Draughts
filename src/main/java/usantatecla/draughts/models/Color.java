@@ -44,6 +44,6 @@ public enum Color implements usantatecla.draughts.utils.Color {
 
     @Override
     public boolean isNull() {
-        return this == Color.NULL;
+        return false;
     }
 }
