@@ -7,10 +7,13 @@ public class Game {
 
     private Board board;
     private Turn turn;
+    private Middleware middleware;
 
     Game(Board board) {
         this.turn = new Turn();
         this.board = board;
+        this.middleware = new MiddlewareCorrectPairMove();
+        this.middleware.linkWith(new MiddlewareCorrectGlobalMove());
     }
 
     public Game() {
@@ -31,22 +34,28 @@ public class Game {
         turn.reset();
     }
 
+    /*
+    do {
+        error = this.isCorrectPairMove(pair, coordinates);
+        if (error == null) {
+            this.pairMove(removedCoordinates, pair, coordinates);
+            pair++;
+        }
+    } while (pair < coordinates.length - 1 && error == null);
+    error = this.isCorrectGlobalMove(error, removedCoordinates, coordinates);
+    if (error == null)
+        this.turn.change();
+    else
+        this.unMovesUntilPair(removedCoordinates, pair, coordinates);
+    */
     public Error move(Coordinate... coordinates) {
-        Error error = null;
-        List<Coordinate> removedCoordinates = new ArrayList<Coordinate>();
-        int pair = 0;
-        do {
-            error = this.isCorrectPairMove(pair, coordinates);
-            if (error == null) {
-                this.pairMove(removedCoordinates, pair, coordinates);
-                pair++;
-            }
-        } while (pair < coordinates.length - 1 && error == null);
-        error = this.isCorrectGlobalMove(error, removedCoordinates, coordinates);
-        if (error == null)
+        Error error = middleware.check(this.board, this.turn, coordinates);
+        if (error == null) {
             this.turn.change();
-        else
-            this.unMovesUntilPair(removedCoordinates, pair, coordinates);
+        } else {
+            this.unMovesUntilPair(middleware.getRemovedCoordinates(), middleware.getPair(), coordinates);
+
+        }
         return error;
     }
 
@@ -64,6 +73,7 @@ public class Game {
         return this.board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPieces, pair, coordinates);
     }
 
+    /*
     private void pairMove(List<Coordinate> removedCoordinates, int pair, Coordinate... coordinates) {
         Coordinate forRemoving = this.getBetweenDiagonalPiece(pair, coordinates);
         if (forRemoving != null) {
@@ -77,7 +87,9 @@ public class Game {
             this.board.put(coordinates[pair + 1], new Draught(color));
         }
     }
+    */
 
+    /*
     private Coordinate getBetweenDiagonalPiece(int pair, Coordinate... coordinates) {
         assert coordinates[pair].isOnDiagonal(coordinates[pair + 1]);
         List<Coordinate> betweenCoordinates = coordinates[pair].getBetweenDiagonalCoordinates(coordinates[pair + 1]);
@@ -89,7 +101,9 @@ public class Game {
         }
         return null;
     }
+    */
 
+    /*
     private Error isCorrectGlobalMove(Error error, List<Coordinate> removedCoordinates, Coordinate... coordinates) {
         if (error != null)
             return error;
@@ -97,6 +111,7 @@ public class Game {
             return Error.TOO_MUCH_JUMPS;
         return null;
     }
+    */
 
     private void unMovesUntilPair(List<Coordinate> removedCoordinates, int pair, Coordinate... coordinates) {
         for (int j = pair; j > 0; j--)
