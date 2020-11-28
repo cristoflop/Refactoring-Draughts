@@ -34,27 +34,13 @@ public class Game {
         turn.reset();
     }
 
-    /*
-    do {
-        error = this.isCorrectPairMove(pair, coordinates);
-        if (error == null) {
-            this.pairMove(removedCoordinates, pair, coordinates);
-            pair++;
-        }
-    } while (pair < coordinates.length - 1 && error == null);
-    error = this.isCorrectGlobalMove(error, removedCoordinates, coordinates);
-    if (error == null)
-        this.turn.change();
-    else
-        this.unMovesUntilPair(removedCoordinates, pair, coordinates);
-    */
     public Error move(Coordinate... coordinates) {
         Error error = middleware.check(this.board, this.turn, coordinates);
         if (error == null) {
+            // this.board = middleware.getBoard();
             this.turn.change();
         } else {
             this.unMovesUntilPair(middleware.getRemovedCoordinates(), middleware.getPair(), coordinates);
-
         }
         return error;
     }
@@ -72,46 +58,6 @@ public class Game {
                 this.board.getBetweenDiagonalPieces(coordinates[pair], coordinates[pair + 1]);
         return this.board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPieces, pair, coordinates);
     }
-
-    /*
-    private void pairMove(List<Coordinate> removedCoordinates, int pair, Coordinate... coordinates) {
-        Coordinate forRemoving = this.getBetweenDiagonalPiece(pair, coordinates);
-        if (forRemoving != null) {
-            removedCoordinates.add(0, forRemoving);
-            this.board.remove(forRemoving);
-        }
-        this.board.move(coordinates[pair], coordinates[pair + 1]);
-        if (this.board.getPiece(coordinates[pair + 1]).isLimit(coordinates[pair + 1])) {
-            Color color = this.board.getColor(coordinates[pair + 1]);
-            this.board.remove(coordinates[pair + 1]);
-            this.board.put(coordinates[pair + 1], new Draught(color));
-        }
-    }
-    */
-
-    /*
-    private Coordinate getBetweenDiagonalPiece(int pair, Coordinate... coordinates) {
-        assert coordinates[pair].isOnDiagonal(coordinates[pair + 1]);
-        List<Coordinate> betweenCoordinates = coordinates[pair].getBetweenDiagonalCoordinates(coordinates[pair + 1]);
-        if (betweenCoordinates.isEmpty())
-            return null;
-        for (Coordinate coordinate : betweenCoordinates) {
-            if (this.getPiece(coordinate) != null)
-                return coordinate;
-        }
-        return null;
-    }
-    */
-
-    /*
-    private Error isCorrectGlobalMove(Error error, List<Coordinate> removedCoordinates, Coordinate... coordinates) {
-        if (error != null)
-            return error;
-        if (coordinates.length > 2 && coordinates.length > removedCoordinates.size() + 1)
-            return Error.TOO_MUCH_JUMPS;
-        return null;
-    }
-    */
 
     private void unMovesUntilPair(List<Coordinate> removedCoordinates, int pair, Coordinate... coordinates) {
         for (int j = pair; j > 0; j--)

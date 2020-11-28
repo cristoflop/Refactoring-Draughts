@@ -7,6 +7,7 @@ public abstract class Middleware {
 
     protected static List<Coordinate> removedCoordinates;
     protected static int pair;
+    protected static Board board;
 
     private Middleware next;
 
@@ -34,6 +35,10 @@ public abstract class Middleware {
 
     public int getPair() {
         return pair;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
 }

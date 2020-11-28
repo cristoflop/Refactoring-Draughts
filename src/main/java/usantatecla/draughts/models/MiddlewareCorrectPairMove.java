@@ -5,14 +5,15 @@ import java.util.List;
 public class MiddlewareCorrectPairMove extends Middleware {
 
     @Override
-    public Error check(Board board, Turn turn, Coordinate... coordinates) {
+    public Error check(Board other, Turn turn, Coordinate... coordinates) {
+        board = other;
         removedCoordinates.clear();
         pair = 0;
         Error error = null;
         do {
-            error = this.isCorrectPairMove(board, turn, pair, coordinates);
+            error = this.isCorrectPairMove(turn, pair, coordinates);
             if (error == null) {
-                this.pairMove(board, turn, pair, coordinates);
+                this.pairMove(pair, coordinates);
                 pair++;
             }
         } while (pair < coordinates.length - 1 && error == null);
@@ -22,7 +23,7 @@ public class MiddlewareCorrectPairMove extends Middleware {
         return checkNext(board, turn, coordinates);
     }
 
-    private Error isCorrectPairMove(Board board, Turn turn, int pair, Coordinate... coordinates) {
+    private Error isCorrectPairMove(Turn turn, int pair, Coordinate... coordinates) {
         assert coordinates[pair] != null;
         assert coordinates[pair + 1] != null;
         if (board.isEmpty(coordinates[pair]))
@@ -36,8 +37,8 @@ public class MiddlewareCorrectPairMove extends Middleware {
         return board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPieces, pair, coordinates);
     }
 
-    private void pairMove(Board board, Turn turn, int pair, Coordinate... coordinates) {
-        Coordinate forRemoving = this.getBetweenDiagonalPiece(board, turn, pair, coordinates);
+    private void pairMove(int pair, Coordinate... coordinates) {
+        Coordinate forRemoving = this.getBetweenDiagonalPiece(pair, coordinates);
         if (forRemoving != null) {
             removedCoordinates.add(0, forRemoving);
             board.remove(forRemoving);
@@ -50,7 +51,7 @@ public class MiddlewareCorrectPairMove extends Middleware {
         }
     }
 
-    private Coordinate getBetweenDiagonalPiece(Board board, Turn turn, int pair, Coordinate... coordinates) {
+    private Coordinate getBetweenDiagonalPiece(int pair, Coordinate... coordinates) {
         assert coordinates[pair].isOnDiagonal(coordinates[pair + 1]);
         List<Coordinate> betweenCoordinates = coordinates[pair].getBetweenDiagonalCoordinates(coordinates[pair + 1]);
         if (betweenCoordinates.isEmpty())
