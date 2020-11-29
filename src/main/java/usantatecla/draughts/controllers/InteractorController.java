@@ -5,6 +5,9 @@ import usantatecla.draughts.models.Game;
 import usantatecla.draughts.models.Piece;
 import usantatecla.draughts.models.State;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class InteractorController extends Controller {
 
     protected InteractorController(Game game, State state) {
@@ -14,8 +17,6 @@ public abstract class InteractorController extends Controller {
     public Piece getPiece(Coordinate coordinate) {
         return this.game.getPiece(coordinate);
     }
-
-    abstract public void accept(InteractorControllersVisitor controllersVisitor);
 
     abstract public void control();
 

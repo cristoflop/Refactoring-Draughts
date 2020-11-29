@@ -1,6 +1,8 @@
 package usantatecla.draughts.views;
 
-import usantatecla.draughts.controllers.*;
+import usantatecla.draughts.controllers.PlayController;
+import usantatecla.draughts.controllers.ResumeController;
+import usantatecla.draughts.controllers.StartController;
 import usantatecla.draughts.models.Color;
 import usantatecla.draughts.models.Coordinate;
 import usantatecla.draughts.models.Error;
@@ -10,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class View extends SubView implements InteractorControllersVisitor {
+public class View extends SubView {
 
     private static final String TITTLE = "Draughts";
     private static final String RESUME_MESSAGE = "¿Queréis jugar otra";
 
     private static final String COLOR_PARAM = "#color";
-    private static final String[] COLOR_VALUES = { "blancas", "negras" };
+    private static final String[] COLOR_VALUES = {"blancas", "negras"};
     private static final String PROMPT = "Mueven las " + View.COLOR_PARAM + ": ";
     private static final String CANCEL_FORMAT = "-1";
     private static final String MOVEMENT_FORMAT = "[1-8]{2}(\\.[1-8]{2}){1,2}";
@@ -31,19 +33,14 @@ public class View extends SubView implements InteractorControllersVisitor {
         this.yesNoDialog = new YesNoDialog();
     }
 
-    public void interact(InteractorController controller) {
-        assert controller != null;
-        controller.accept(this);
-    }
-
-    void interact(StartController startController) {
+    public void interact(StartController startController) {
         assert startController != null;
         this.console.writeln(View.TITTLE);
         new GameView().write(startController);
         startController.start();
     }
 
-    void interact(PlayController playController) {
+    public void interact(PlayController playController) {
         assert playController != null;
         Error error;
         do {
@@ -63,7 +60,7 @@ public class View extends SubView implements InteractorControllersVisitor {
         } while (error != null);
     }
 
-    void interact(ResumeController resumeController) {
+    public void interact(ResumeController resumeController) {
         assert resumeController != null;
         if (this.yesNoDialog.read(View.RESUME_MESSAGE))
             resumeController.reset();
@@ -72,7 +69,7 @@ public class View extends SubView implements InteractorControllersVisitor {
     }
 
     private String read(Color color) {
-        final String titleColor = View.PROMPT.replace(View.COLOR_PARAM ,View.COLOR_VALUES[color.ordinal()]);
+        final String titleColor = View.PROMPT.replace(View.COLOR_PARAM, View.COLOR_VALUES[color.ordinal()]);
         return this.console.readString(titleColor);
     }
 
@@ -84,21 +81,21 @@ public class View extends SubView implements InteractorControllersVisitor {
         return Pattern.compile(View.MOVEMENT_FORMAT).matcher(string).find();
     }
 
-    private void writeError(){
+    private void writeError() {
         this.console.writeln(View.ERROR_MESSAGE);
     }
 
     private Coordinate[] getCoordinates() {
         assert this.isMoveFormat();
         List<Coordinate> coordinateList = new ArrayList<>();
-        while (string.length() > 0){
+        while (string.length() > 0) {
             coordinateList.add(Coordinate.getInstance(string.substring(0, 2)));
             string = string.substring(2, string.length());
             if (string.length() > 0 && string.charAt(0) == '.')
                 string = string.substring(1, string.length());
         }
         Coordinate[] coordinates = new Coordinate[coordinateList.size()];
-        for(int i=0; i< coordinates.length; i++){
+        for (int i = 0; i < coordinates.length; i++) {
             coordinates[i] = coordinateList.get(i);
         }
         return coordinates;
@@ -108,22 +105,12 @@ public class View extends SubView implements InteractorControllersVisitor {
         this.console.writeln(LOST_MESSAGE);
     }
 
-    @Override
-    public void visit(StartController startController) {
-        assert startController != null;
-        this.interact(startController);
+    public void writeTitle() {
+        this.console.writeln(View.TITTLE);
     }
 
-    @Override
-    public void visit(PlayController playController) {
-        assert playController != null;
-        this.interact(playController);
-    }
-
-    @Override
-    public void visit(ResumeController resumeController) {
-        assert resumeController != null;
-        this.interact(resumeController);
+    public void writePieces(int row, String pieces) {
+        GameView gameView = new GameView();
     }
 
 }

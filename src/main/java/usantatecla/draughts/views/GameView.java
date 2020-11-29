@@ -28,7 +28,7 @@ class GameView extends SubView {
             Piece piece = controller.getPiece(new Coordinate(row, j));
             if (piece == null)
                 this.console.write(" ");
-            else 
+            else
                 this.console.write(piece.getCode());
         }
         this.console.writeln((row + 1) + "");

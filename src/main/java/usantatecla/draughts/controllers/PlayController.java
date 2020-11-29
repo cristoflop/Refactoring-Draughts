@@ -31,12 +31,6 @@ public class PlayController extends InteractorController {
 	}
 
 	@Override
-	public void accept(InteractorControllersVisitor controllersVisitor) {
-		assert controllersVisitor != null;
-		controllersVisitor.visit(this);
-	}
-
-	@Override
 	public void control() {
 
 	}
