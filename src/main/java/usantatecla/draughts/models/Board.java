@@ -37,7 +37,7 @@ class Board {
     }
 
     List<Piece> getBetweenDiagonalPieces(Coordinate origin, Coordinate target) {
-        List<Piece> betweenDiagonalPieces = new ArrayList<Piece>();
+        List<Piece> betweenDiagonalPieces = new ArrayList<>();
         if (origin.isOnDiagonal(target))
             for (Coordinate coordinate : origin.getBetweenDiagonalCoordinates(target)) {
                 Piece piece = this.getPiece(coordinate);
@@ -66,6 +66,23 @@ class Board {
 
     boolean isEmpty(Coordinate coordinate) {
         return this.getPiece(coordinate) == null;
+    }
+
+    Board copy() {
+        Board copy = new Board();
+        copy.pieces = new Piece[Coordinate.getDimension()][Coordinate.getDimension()];
+        for (int i = 0; i < Coordinate.getDimension(); i++)
+            for (int j = 0; j < Coordinate.getDimension(); j++)
+                copy.pieces[i][j] = this.pieces[i][j];
+        return copy;
+    }
+
+    void update(Board board) {
+        assert board != null;
+        for (int i = 0; i < Coordinate.getDimension(); i++)
+            for (int j = 0; j < Coordinate.getDimension(); j++)
+                this.pieces[i][j] = board.pieces[i][j];
+
     }
 
     @Override
