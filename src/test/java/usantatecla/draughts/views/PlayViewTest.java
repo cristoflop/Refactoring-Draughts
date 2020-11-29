@@ -1,8 +1,5 @@
 package usantatecla.draughts.views;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,11 +7,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import usantatecla.draughts.controllers.PlayController;
 import usantatecla.draughts.models.Color;
 import usantatecla.draughts.models.Coordinate;
 import usantatecla.draughts.utils.Console;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlayViewTest {
@@ -24,7 +23,7 @@ public class PlayViewTest {
     @Mock
     Console console;
     @InjectMocks
-    PlayView playView;
+    View playView;
 
     @Before
     public void initMocks() {
