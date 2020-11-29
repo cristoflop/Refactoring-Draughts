@@ -1,20 +1,21 @@
 package usantatecla.draughts.views;
 
 import usantatecla.draughts.controllers.*;
+import usantatecla.draughts.utils.YesNoDialog;
 
 public class View extends SubView implements InteractorControllersVisitor {
 
     private static final String TITTLE = "Draughts";
+    private static final String RESUME_MESSAGE = "¿Queréis jugar otra";
 
-    // private StartView startView;
+    private YesNoDialog yesNoDialog;
+
     private PlayView playView;
-    private ResumeView resumeView;
 
     public View() {
         super();
-        // this.startView = new StartView();
         this.playView = new PlayView();
-        this.resumeView = new ResumeView();
+        this.yesNoDialog = new YesNoDialog();
     }
 
     public void interact(InteractorController controller) {
@@ -24,9 +25,17 @@ public class View extends SubView implements InteractorControllersVisitor {
 
     void interact(StartController startController) {
         assert startController != null;
-        this.console.writeln(this.TITTLE);
+        this.console.writeln(TITTLE);
         new GameView().write(startController);
         startController.start();
+    }
+
+    void interact(ResumeController resumeController) {
+        assert resumeController != null;
+        if (this.yesNoDialog.read(RESUME_MESSAGE))
+            resumeController.reset();
+        else
+            resumeController.next();
     }
 
     @Override
@@ -44,7 +53,7 @@ public class View extends SubView implements InteractorControllersVisitor {
     @Override
     public void visit(ResumeController resumeController) {
         assert resumeController != null;
-        this.resumeView.interact(resumeController);
+        this.interact(resumeController);
     }
 
 }
