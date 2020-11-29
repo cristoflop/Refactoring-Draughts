@@ -109,8 +109,9 @@ public class View extends SubView {
         this.console.writeln(View.TITTLE);
     }
 
-    public void writePieces(int row, String pieces) {
+    public void writePieces(StartController startController) {
         GameView gameView = new GameView();
+        gameView.write(startController);
     }
 
 }

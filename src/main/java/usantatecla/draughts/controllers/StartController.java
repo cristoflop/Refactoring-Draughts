@@ -18,6 +18,7 @@ public class StartController extends InteractorController {
     public void control() {
         View view = new View();
         view.writeTitle();
+        view.writePieces(this);
         this.start();
     }
 
