@@ -1,7 +1,6 @@
 package usantatecla.draughts.views;
 
 import usantatecla.draughts.controllers.PlayController;
-import usantatecla.draughts.controllers.ResumeController;
 import usantatecla.draughts.controllers.StartController;
 import usantatecla.draughts.models.Color;
 import usantatecla.draughts.models.Coordinate;
@@ -33,13 +32,6 @@ public class View extends SubView {
         this.yesNoDialog = new YesNoDialog();
     }
 
-    public void interact(StartController startController) {
-        assert startController != null;
-        this.console.writeln(View.TITTLE);
-        new GameView().write(startController);
-        startController.start();
-    }
-
     public void interact(PlayController playController) {
         assert playController != null;
         Error error;
@@ -58,14 +50,6 @@ public class View extends SubView {
                     this.writeLost();
             }
         } while (error != null);
-    }
-
-    public void interact(ResumeController resumeController) {
-        assert resumeController != null;
-        if (this.yesNoDialog.read(View.RESUME_MESSAGE))
-            resumeController.reset();
-        else
-            resumeController.next();
     }
 
     private String read(Color color) {
