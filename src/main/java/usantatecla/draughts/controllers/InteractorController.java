@@ -7,14 +7,16 @@ import usantatecla.draughts.models.State;
 
 public abstract class InteractorController extends Controller {
 
-	protected InteractorController(Game game, State state) {
-		super(game, state);
-	}
+    protected InteractorController(Game game, State state) {
+        super(game, state);
+    }
 
-	public Piece getPiece(Coordinate coordinate) {
-		return this.game.getPiece(coordinate);
-	}
+    public Piece getPiece(Coordinate coordinate) {
+        return this.game.getPiece(coordinate);
+    }
 
-	abstract public void accept(InteractorControllersVisitor controllersVisitor);
+    abstract public void accept(InteractorControllersVisitor controllersVisitor);
+
+    abstract public void control();
 
 }

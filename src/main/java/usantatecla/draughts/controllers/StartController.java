@@ -19,4 +19,9 @@ public class StartController extends InteractorController {
 		controllersVisitor.visit(this);
     }
 
+	@Override
+	public void control() {
+
+	}
+
 }

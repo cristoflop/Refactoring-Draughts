@@ -1,10 +1,7 @@
 package usantatecla.draughts.controllers;
 
-import usantatecla.draughts.models.Color;
-import usantatecla.draughts.models.Coordinate;
-import usantatecla.draughts.models.State;
 import usantatecla.draughts.models.Error;
-import usantatecla.draughts.models.Game;
+import usantatecla.draughts.models.*;
 
 public class PlayController extends InteractorController {
 
@@ -37,6 +34,11 @@ public class PlayController extends InteractorController {
 	public void accept(InteractorControllersVisitor controllersVisitor) {
 		assert controllersVisitor != null;
 		controllersVisitor.visit(this);
+	}
+
+	@Override
+	public void control() {
+
 	}
 
 }
