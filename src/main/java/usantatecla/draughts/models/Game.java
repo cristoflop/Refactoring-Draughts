@@ -35,12 +35,10 @@ public class Game {
     }
 
     public Error move(Coordinate... coordinates) {
-        Error error = middleware.check(this.board, this.turn, coordinates);
+        Error error = middleware.check(this.board.copy(), this.turn, null, coordinates);
         if (error == null) {
-            // this.board = middleware.getBoard();
+            this.board.update(middleware.getBoard());
             this.turn.change();
-        } else {
-            this.unMovesUntilPair(middleware.getRemovedCoordinates(), middleware.getPair(), coordinates);
         }
         return error;
     }
@@ -57,13 +55,6 @@ public class Game {
         List<Piece> betweenDiagonalPieces =
                 this.board.getBetweenDiagonalPieces(coordinates[pair], coordinates[pair + 1]);
         return this.board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPieces, pair, coordinates);
-    }
-
-    private void unMovesUntilPair(List<Coordinate> removedCoordinates, int pair, Coordinate... coordinates) {
-        for (int j = pair; j > 0; j--)
-            this.board.move(coordinates[j], coordinates[j - 1]);
-        for (Coordinate removedPiece : removedCoordinates)
-            this.board.put(removedPiece, new Pawn(this.getOppositeTurnColor()));
     }
 
     public boolean isBlocked() {

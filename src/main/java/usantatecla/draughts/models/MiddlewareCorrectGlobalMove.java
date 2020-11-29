@@ -5,7 +5,7 @@ import java.util.List;
 public class MiddlewareCorrectGlobalMove extends Middleware {
 
     @Override
-    public Error check(Board board, Turn turn, Coordinate... coordinates) {
+    public Error check(Board board, Turn turn, List<Coordinate> removedCoordinates, Coordinate... coordinates) {
         return isCorrectGlobalMove(removedCoordinates, coordinates);
     }
 
