@@ -5,3 +5,5 @@
 ##### 2. Generic class Coordinate
 
 ##### 3. Chain of responsibility pattern in move algorithm
+
+##### 4. Merged Start, Play, Resume Views in class View and updated test
