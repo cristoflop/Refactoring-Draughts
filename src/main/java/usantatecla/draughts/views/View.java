@@ -114,4 +114,8 @@ public class View extends SubView {
         gameView.write(startController);
     }
 
+    public boolean readResume() {
+        return this.yesNoDialog.read(View.RESUME_MESSAGE);
+    }
+
 }
