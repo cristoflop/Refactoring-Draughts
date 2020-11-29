@@ -1,9 +1,5 @@
 package usantatecla.draughts.views;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +7,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import usantatecla.draughts.controllers.ResumeController;
 import usantatecla.draughts.utils.YesNoDialog;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ResumeViewTest {
@@ -23,7 +22,7 @@ public class ResumeViewTest {
     @Mock
     YesNoDialog yesNoDialog;
     @InjectMocks
-    ResumeView resumeView;
+    View resumeView;
 
     @Before
     public void initMocks() {
