@@ -1,14 +1,9 @@
 package usantatecla.draughts.views;
 
-import usantatecla.draughts.controllers.PlayController;
-import usantatecla.draughts.controllers.StartController;
+import usantatecla.draughts.controllers.InteractorController;
 import usantatecla.draughts.models.Color;
-import usantatecla.draughts.models.Coordinate;
-import usantatecla.draughts.models.Error;
 import usantatecla.draughts.utils.YesNoDialog;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class View extends SubView {
@@ -23,7 +18,6 @@ public class View extends SubView {
     private static final String MOVEMENT_FORMAT = "[1-8]{2}(\\.[1-8]{2}){1,2}";
     private static final String ERROR_MESSAGE = "Error!!! Formato incorrecto";
     private static final String LOST_MESSAGE = "Derrota!!! No puedes mover tus fichas!!!";
-    private String string;
 
     private YesNoDialog yesNoDialog;
 
@@ -32,60 +26,24 @@ public class View extends SubView {
         this.yesNoDialog = new YesNoDialog();
     }
 
-    public void interact(PlayController playController) {
-        assert playController != null;
-        Error error;
-        do {
-            error = null;
-            this.string = this.read(playController.getColor());
-            if (this.isCanceledFormat())
-                playController.cancel();
-            else if (!this.isMoveFormat()) {
-                error = Error.BAD_FORMAT;
-                this.writeError();
-            } else {
-                error = playController.move(this.getCoordinates());
-                new GameView().write(playController);
-                if (error == null && playController.isBlocked())
-                    this.writeLost();
-            }
-        } while (error != null);
-    }
-
-    private String read(Color color) {
+    public String read(Color color) {
         final String titleColor = View.PROMPT.replace(View.COLOR_PARAM, View.COLOR_VALUES[color.ordinal()]);
         return this.console.readString(titleColor);
     }
 
-    private boolean isCanceledFormat() {
+    public boolean isCanceledFormat(String string) {
         return string.equals(View.CANCEL_FORMAT);
     }
 
-    private boolean isMoveFormat() {
+    public boolean isMoveFormat(String string) {
         return Pattern.compile(View.MOVEMENT_FORMAT).matcher(string).find();
     }
 
-    private void writeError() {
+    public void writeError() {
         this.console.writeln(View.ERROR_MESSAGE);
     }
 
-    private Coordinate[] getCoordinates() {
-        assert this.isMoveFormat();
-        List<Coordinate> coordinateList = new ArrayList<>();
-        while (string.length() > 0) {
-            coordinateList.add(Coordinate.getInstance(string.substring(0, 2)));
-            string = string.substring(2, string.length());
-            if (string.length() > 0 && string.charAt(0) == '.')
-                string = string.substring(1, string.length());
-        }
-        Coordinate[] coordinates = new Coordinate[coordinateList.size()];
-        for (int i = 0; i < coordinates.length; i++) {
-            coordinates[i] = coordinateList.get(i);
-        }
-        return coordinates;
-    }
-
-    private void writeLost() {
+    public void writeLost() {
         this.console.writeln(LOST_MESSAGE);
     }
 
@@ -93,9 +51,9 @@ public class View extends SubView {
         this.console.writeln(View.TITTLE);
     }
 
-    public void writePieces(StartController startController) {
+    public void writePieces(InteractorController controller) {
         GameView gameView = new GameView();
-        gameView.write(startController);
+        gameView.write(controller);
     }
 
     public boolean readResume() {
